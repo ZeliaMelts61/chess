@@ -33,11 +33,6 @@
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
-        <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>exec-maven-plugin</artifactId>
-          <version>3.1.0</version>
-        </plugin>
         <!-- clean lifecycle, see https://maven.apache.org/ref/current/maven-core/lifecycles.html#clean_Lifecycle -->
         <plugin>
           <artifactId>maven-clean-plugin</artifactId>
@@ -103,7 +98,98 @@
               </execution>
           </executions>
       </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>3.1.0</version>
+        <executions>
+          <execution>
+            <id>jpackage</id>
+            <phase>package</phase>
+            <goals>
+              <goal>exec</goal>
+            </goals>
+            <configuration>
+              <executable>jpackage</executable>
+              <arguments>
+                <argument>--input</argument>
+                <argument>--name</argument>
+                <argument>ChessApp</argument>
+                <argument>--main-jar</argument>
+                <argument>${project.build.finalName}.jar</argument>
+                <argument>--main-class</argument>
+                <argument>com.chess_test.Main</argument>
+                <argument>--type</argument>
+                <argument>exe</argument>
+                <argument>--dest</argument>
+                <argument>${project.build.directory}/target</argument>
+                <!-- IMPORTANT: no WiX needed -->
+                <argument>--type</argument>
+                <argument>app-image</argument>
+              </arguments>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    <!-- 2. Run jpackage automatically on mvn package -->
+      
       </plugins>
     </pluginManagement>
   </build>
+  <profiles>
+    <profile>
+      <id>installer</id>
+
+      <build>
+        <plugins>
+
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>jpackage</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+
+                <configuration>
+                  <executable>jpackage</executable>
+
+                  <arguments>
+
+                    <argument>--input</argument>
+                    <argument>${project.build.directory}</argument>
+
+                    <argument>--dest</argument>
+                    <argument>${project.build.directory}</argument>
+
+                    <argument>--name</argument>
+                    <argument>ChessApp</argument>
+
+                    <argument>--main-jar</argument>
+                    <argument>${project.build.finalName}.jar</argument>
+
+                    <argument>--main-class</argument>
+                    <argument>com.chess_test.Main</argument>
+
+                    <argument>--type</argument>
+                    <argument>exe</argument>
+
+                  </arguments>
+
+                </configuration>
+              </execution>
+            </executions>
+
+          </plugin>
+
+        </plugins>
+      </build>
+
+    </profile>
+
+  </profiles>
 </project>
