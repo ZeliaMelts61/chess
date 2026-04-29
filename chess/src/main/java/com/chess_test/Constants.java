@@ -29,6 +29,7 @@ public final class Constants {
             public static final String BOLD  = "\u001B[1m";
             public static final String UNDERLINE  = "\u001B[4m";
             public static final String REVERSED  = "\u001B[7m";
+            public static final String ITALICS  = "\u001b[3m";
         }
         public static final class Clear {
             public static final String CURSOR_TO_END = "\u001B[0J";

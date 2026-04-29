@@ -125,6 +125,41 @@ public class Board {
         return false;
     }
 
+    // DO NOT USE THIS ONE, THIS IS ONLY FOR THE INSTRUCTIONS
+    public boolean movePiece(Tile startTile, Tile endTile){ 
+        List<Location> validMoves = startTile.getPieceOnTile().getValidMoves(board);
+        List<Tile> tileList = new ArrayList<>();
+        for (Location rowCol : validMoves) {
+            Tile tile = getTileFromLocation(rowCol);
+            if (tile!=null){
+                tileList.add(tile);
+            }
+        }
+        if (tileList.contains(endTile)){
+            ChessPiece piece= startTile.getPieceOnTile();
+            
+            
+            startTile.movePieceOffOfTile();
+            ChessPiece captured = endTile.movePieceToTile(piece);
+            if (piece != null) {
+                piece.setHasMoved(true);
+            }
+            if (captured!=null){
+                if (getCurrentPlayer()==1){
+                    player1CapturedPieces.add(captured);
+                }else{
+                    player2CapturedPieces.add(captured);
+                }
+            }
+            if (piece != null) {
+                piece.setToInactivePiece();
+            }
+            return true;
+
+        }
+        return false;
+    }
+
     public Tile getTileFromLocation(Location rowCol){
         // System.out.println("rowCol: " + rowCol);
         

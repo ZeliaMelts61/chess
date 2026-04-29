@@ -162,7 +162,9 @@ public class InputAndDisplay {
 
         System.out.println("The winning board is: ");
         board.printBoardWithGrid();
-        System.out.println("Thank You for playing\nGame made entirely by \n\t- Zelia ");
+        System.out.println("Thank You for playing");
+        credits();
+        input.nextLine();
         
 
         
@@ -170,6 +172,76 @@ public class InputAndDisplay {
 
     public boolean isGameOver(){
         return gameOver;
+    }
+    public boolean promptPlayAgain(){
+        while (true) { 
+            System.out.println("Would you like to play again? (y/n)");
+            String line = input.nextLine().toLowerCase().strip();
+            if(line.equals("yes") || line.equals("y")){
+                return true;
+            } else if (line.equals("no") || line.equals("n")){
+                return false;
+            }
+        }
+        
+    }
+
+    public static void credits(){
+        System.out.println(Constants.AsciiEscapeCodes.Styles.ITALICS + "This game was made by Zelia under an MIT License");
+        System.out.println(Constants.AsciiEscapeCodes.Styles.ITALICS + "My contact information is Email: ZeliaMelts@gmail.com\nGithub: ZeliaMelts61\nSource Code Repo: https://github.com/ZeliaMelts61/chess" + Constants.AsciiEscapeCodes.RESET_ALL);
+    }
+    public static void tutorial(){
+        System.out.println("Would you like an explanation of how the game works? (y/n)");
+        String line = input.nextLine().strip();
+        if(!(line.equals("n") || line.equals("no"))){
+            Board exampleBoard = new Board();
+            System.out.println("UI: ");
+            System.out.println(Constants.PieceDisplays.PAWN + " = Pawn");
+            System.out.println(Constants.PieceDisplays.ROOK + " = Rook");
+            System.out.println(Constants.PieceDisplays.KNIGHT + " = Knight");
+            System.out.println(Constants.PieceDisplays.QUEEN + " = Queen");
+            System.out.println(Constants.PieceDisplays.KING + " = King");
+            input.nextLine();
+            System.out.println(Constants.TileDisplays.UNOCCUPIED + " = Unoccupied tile");
+            System.out.println(Constants.TileDisplays.UNOCCUPIED_CAN_MOVE_TO + " = Unoccupied tile that the current peice can move to");
+            System.out.println(Constants.TileDisplays.CAPTURE + " = Tile with a peice that you can capture");
+            input.nextLine();
+            System.err.println(Constants.GameColors.PLAYER_ONE_COLOR + "Player 1 " + Constants.AsciiEscapeCodes.RESET_ALL + "is the Player that starts at the bottom of the board");
+            System.err.println(Constants.GameColors.PLAYER_TWO_COLOR + "Player 2 " + Constants.AsciiEscapeCodes.RESET_ALL + "is the Player that starts at the top of the board");
+            input.nextLine();
+            System.out.println("Movement: ");
+            System.out.println("Moving is easy, there are 3 steps to moving a piece:");
+            exampleBoard.printBoardWithGrid();
+            System.out.println("Step 1: When prompted to select a piece Enter the loctaion of the piece you want to move");
+            System.out.println("For example to move player 1's A pawn, you would enter \"a2\"");
+            input.nextLine();
+            exampleBoard.getBoardAsTiles()[5][0].enableMoveDisplayMode();
+            exampleBoard.getBoardAsTiles()[4][0].enableMoveDisplayMode();
+            exampleBoard.getBoardAsTiles()[6][0].getPieceOnTile().setToActivePiece();
+            System.out.println("Step 2: once a piece is selected you will be able to see its avalible moves");
+            exampleBoard.printBoardWithGrid();
+            input.nextLine();
+            System.out.println("Step 3: Now you will select the square that you want the move the piece to");
+            System.out.println("For example to move player 1's A pawn forward two spaces you would enter \"a4\"");
+            exampleBoard.movePiece(exampleBoard.getBoardAsTiles()[6][0], exampleBoard.getBoardAsTiles()[4][0]);
+            exampleBoard.getBoardAsTiles()[5][0].disableMoveDisplayMode();
+            exampleBoard.getBoardAsTiles()[4][0].disableMoveDisplayMode();
+            exampleBoard.printBoardWithGrid();
+            input.nextLine();
+            System.out.println("Your piece has now been moved!");
+            input.nextLine();
+            System.out.println("My chess game is special");
+            System.out.println("In my chess game you cannont do En-passant. \nI decided to code it like that because I thought it was funny");
+            System.out.println("There is also another secret change from chess that I am leaving it up to you to find");
+            System.out.println("Have fun and enjoy the game");
+            credits();
+            
+        }
+        input.nextLine();
+        clearConsole();
+        
+
+        
     }
     public static void clearConsole() {
         System.out.print(Constants.AsciiEscapeCodes.Clear.ENTIRE_SCREEN);
